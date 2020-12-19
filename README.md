@@ -10,6 +10,7 @@ Optionally, include a table of contents in order to allow other people to quickl
 
 ## Installation: 
 Installation is a two step process. First import two pip3 libraries. MQTT is used to subscribe and publish "do it yourself home automation" topics. The second step is to create a systemd service so the application starts when rebooted or via user commands.
+
 step 1 - installation
 ```chmod +x *.sh
 ./installation-script.sh
