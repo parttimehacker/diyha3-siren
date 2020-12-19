@@ -1,12 +1,12 @@
 ## Project name: 
 
-diyha-siren
+### diyha-siren
 
 ## Description: 
 This is a Raspberry Pi project that implements a loud pulsing siren and flashing red LED as part of a larger "do it yourself home automation" system.  The application is written in Pyhton3. The siren and LED are powered by a 12 volt battery. I usually create a systemd service so the application runs at boot.
 
 ## Installation: 
-Installation is a two step process. Make the bash scripts executabel and then import two pip3 libraries. MQTT is used to subscribe and publish "do it yourself home automation" topics. 
+Installation is a two step process. Make the bash scripts executable and then import two pip3 libraries. MQTT is used to subscribe and publish "do it yourself home automation" topics. The application uses two GPIO pins: 17 for the siren and flashing LED alarm and 18 for a green LED indicating that the device is running.
 
 Step 1 - make the install bash scripts executable
 ```
@@ -22,6 +22,10 @@ Step2 - create the diyha-siren systemd service (it uses an argument to create th
 ./systemd-script.sh diyha-siren
 ```
 ## Usage: 
+The application subscribes to four MQTT topics. Tow of the topics, **diy/system/fire** and **diy/system/panic**, control the siren and flashing LED. Another topic. **diy/system/who**, cause the application to publish its status. 
+
+The application uses two GPIO pins: **17** for the siren and flashing LED alarm and **18** for a green LED indicating that the device is running.
+
 I recommend making a raspbian systemd service so the application starts when rebooted or via user commands. The systemd-script.sh creates a diyha-siren directory in /usr/local directory. The application files are then copied to this new directory. The application will also create a log file in /var/log called diyha-siren.log
 
 Create the diyha-siren systemd service (the script uses a file name argument to create the service)
