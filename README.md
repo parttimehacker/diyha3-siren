@@ -9,8 +9,15 @@ Raspberry Pi project that implements a loud pulsing siren and flashing red LED a
 Optionally, include a table of contents in order to allow other people to quickly navigate especially long or detailed READMEs.
 
 ## Installation: 
-Installation is the next section in an effective README. Tell other users how to install your project locally. Optionally, include a gif to make the process even more clear for other people.
-
+Installation is a two step process. First import two pip3 libraries. MQTT is used to subscribe and publish "do it yourself home automation" topics. The second step is to create a systemd service so the application starts when rebooted or via user commands.
+step 1 - installation
+```chmod +x *.sh
+./installation-script.sh
+```
+step2 - create the systemd service
+```
+./systemd-script.sh diyha-siren
+```
 ## Usage: 
 The next section is usage, in which you instruct other people on how to use your project after they’ve installed it. This would also be a good place to include screenshots of your project in action.
 
