@@ -4,13 +4,8 @@ diyha-siren
 
 ## Description: 
 Raspberry Pi project that implements a loud pulsing siren and flashing red LED as part of a larger "do it yourself home automation" system.  The systemd service is written in Pyhton3. The siren and LED are powered by a 12 volt battery.
-
-## Table of Contents: 
-Optionally, include a table of contents in order to allow other people to quickly navigate especially long or detailed READMEs.
-
 ## Installation: 
 Installation is a two step process. First import two pip3 libraries. MQTT is used to subscribe and publish "do it yourself home automation" topics. The second step is to create a systemd service so the application starts when rebooted or via user commands.
-
 step 1 - installation
 ```chmod +x *.sh
 ./installation-script.sh
