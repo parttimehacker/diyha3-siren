@@ -8,12 +8,12 @@ This is my latest Raspberry Pi project that implements both a loud, pulsing sire
 ## Installation: 
 Installation is a two step process. First make the bash scripts executable and  import two **pip3 libraries**. MQTT is used to subscribe and publish "do it yourself home automation" topics. The application uses two of the Raspberry Pi pins. The second step is to decide whether to manually or use systemd to run the application.
 
-Step 1 - make bash scripts executable
+- Make bash scripts executable
 ```
 chmod +x *.sh
 ```
 
-Step 2 - installation of MQTT and RPI.GPIO libraries
+- Install MQTT and RPI.GPIO libraries
 ```chmod +x *.sh
 ./installation-script.sh
 ```
@@ -42,7 +42,7 @@ sudo systemctl -l status diyha-siren
 
 Adafruit supplies most of my hardware. http://www.adafruit.com
 
-My "do it yourself home automation" system leverages the great work from the Paho project.
+My "do it yourself home automation" system leverages the work from the Eclipse IOT Paho project. https://www.eclipse.org/paho/
 
 ## Credits: 
 Developed by parttimehacker.
