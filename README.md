@@ -3,10 +3,10 @@
 ### diyha-siren
 
 ## Description: 
-This is my latest Raspberry Pi project that implements both a loud, pulsing siren and a multiple, flashing red LEDs as part of a larger "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. The siren and LED device are powered by a single 12 volt battery. I usually create a **systemd service** so the application runs at boot.
+This is my latest Raspberry Pi project that implements both a loud, pulsing siren and multiple, flashing red LEDs as part of a larger "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. The siren and LED device are controlled by a relay and powered by a single 12 volt battery. I usually create a **systemd service** so the application runs at boot.
 
 ## Installation: 
-Installation is a two step process. First make the bash scripts executable and then import two **pip3 libraries**. MQTT is used to subscribe and publish "do it yourself home automation" topics. The application uses two of the Raspberry Pi pins.
+Installation is a two step process. First make the bash scripts executable and  import two **pip3 libraries**. MQTT is used to subscribe and publish "do it yourself home automation" topics. The application uses two of the Raspberry Pi pins. The second step is to decide whether to manually or use systemd to run the application.
 
 Step 1 - make bash scripts executable
 ```
@@ -19,11 +19,11 @@ Step 2 - installation of MQTT and RPI.GPIO libraries
 ```
 
 ## Usage: 
-The application subscribes to four MQTT topics. Two of the topics, **diy/system/fire** and **diy/system/panic**, control the siren and flashing LED. Another topic. **diy/system/who**, causes the application to publish its status to the MQTT broker. 
+You need to decide whether you want to manually start the application or have it performed as part of the boot process. I recommend making a **Raspbian OS systemd service**, so the application starts when rebooted or controled by **systemctl** commands. The systemd-script.sh creates a diyha-siren directory in **/usr/local directory**. The application files are then copied to this new directory. The application will also require a log file in **/var/log directory** called diyha-siren.log
 
-The application uses two of the Raspberry Pi pins: **GPIO 17** for the siren and flashing LED alarm and **GPIO 18** for a green LED indicating that the device is running (easily changed).
+The application subscribes to four MQTT topics. Two of the topics, **diy/system/fire** and **diy/system/panic**, control the siren and flashing LED. Another topic. **diy/system/who**, causes the application to publish its status to the MQTT broker. The fourth topic is **diy/system/test** and is used for developement testing.
 
-I recommend making a Raspbian OS **systemd service**, so the application starts when rebooted or via user commands. The systemd-script.sh creates a diyha-siren directory in **/usr/local directory**. The application files are then copied to this new directory. The application will also require a log file in **/var/log directory** called diyha-siren.log
+The application uses two of the Raspberry Pi pins: **GPIO 17** for the siren and flashing LED device and **GPIO 18** for a green LED indicating that the device is running (easily changed).
 
 Create the diyha-siren systemd service (the script uses a file name argument to create the service)
 ```
@@ -39,10 +39,13 @@ sudo systemctl -l status diyha-siren
 ```
 
 ## Contributing: 
-Larger projects often have sections on contributing to their project, in which contribution instructions are outlined. Sometimes, this is a separate file. If you have specific contribution preferences, explain them so that other developers know how to best contribute to your work. To learn more about how to help others contribute, check out the guide for setting guidelines for repository contributors.
+
+Adafruit supplies most of my hardware. http://www.adafruit.com
+
+My "do it yourself home automation" system leverages the great work from the Paho project.
 
 ## Credits: 
-Include a section for credits in order to highlight and link to the authors of your project.
+Developed by parttimehacker.
 
 ## License: 
 MIT
