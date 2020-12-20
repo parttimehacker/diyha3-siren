@@ -70,7 +70,7 @@ ALIVE.start()
 
 #pylint: disable=too-many-branches
 
-def system_message(client, msg):
+def system_message(msg):
     """ Log and process system messages. """
     LOGGER.info(msg.topic+" "+msg.payload.decode('utf-8'))
     if msg.topic == 'diy/system/fire':
@@ -99,7 +99,7 @@ def system_message(client, msg):
 
 #pylint: disable=unused-argument
 
-def topic_message(client, msg):
+def topic_message(msg):
     """ Set the sensors location topic. Used to publish measurements. """
     LOGGER.info(msg.topic+" "+msg.payload.decode('utf-8'))
     topic = msg.payload.decode('utf-8') + "/motion"
@@ -125,7 +125,7 @@ TOPIC_DISPATCH_DICTIONARY = {
 def on_message(client, userdata, msg):
     """ dispatch to the appropriate MQTT topic handler """
     #pylint: disable=unused-argument
-    TOPIC_DISPATCH_DICTIONARY[msg.topic]["method"](client, msg)
+    TOPIC_DISPATCH_DICTIONARY[msg.topic]["method"](msg)
 
 
 def on_connect(client, userdata, flags, rc_msg):
@@ -162,11 +162,11 @@ if __name__ == '__main__':
 
     # command line argument contains Mosquitto MQTT broker IP address.
 
-    parser = argparse.ArgumentParser('sensor.py parser')
-    parser.add_argument('--mqtt', help='MQTT server IP address')
-    args = parser.parse_args()
+    PARSER = argparse.ArgumentParser('sensor.py parser')
+    PARSER.add_argument('--mqtt', help='MQTT server IP address')
+    ARGS = PARSER.parse_args()
 
-    BROKER_IP = args.mqtt
+    BROKER_IP = ARGS.mqtt
     print(BROKER_IP)
 
     CLIENT.connect(BROKER_IP, 1883, 60)
