@@ -3,7 +3,7 @@
 ### diyha-siren
 
 ## Description: 
-This is my latest Raspberry Pi project that implements both a loud, pulsing siren and a flashing red LED as part of a larger "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. The siren and LED are powered by a 12 volt battery. I usually create a **systemd service** so the application runs at boot.
+This is my latest Raspberry Pi project that implements both a loud, pulsing siren and a multiple, flashing red LEDs as part of a larger "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. The siren and LED device are powered by a single 12 volt battery. I usually create a **systemd service** so the application runs at boot.
 
 ## Installation: 
 Installation is a two step process. First make the bash scripts executable and then import two **pip3 libraries**. MQTT is used to subscribe and publish "do it yourself home automation" topics. The application uses two of the Raspberry Pi pins.
