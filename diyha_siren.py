@@ -34,6 +34,7 @@ from pkg_classes.alarmcontroller import AlarmController
 from pkg_classes.alivecontroller import AliveController
 from pkg_classes.topicmodel import TopicModel
 from pkg_classes.whocontroller import WhoController
+from pkg_classes.testmodel import TestModel
 
 # Constants for GPIO pins
 
@@ -61,6 +62,8 @@ WHO = WhoController()
 SIREN = AlarmController(SIREN_GPIO) # Alarm or light controller
 SIREN.sound_alarm(False)
 
+TEST = TestModel(SIREN)
+
 # set up alive GPIO controller
 
 ALIVE = AliveController(ALIVE_GPIO, ALIVE_INTERVAL) # Alive or LED controller
@@ -84,10 +87,7 @@ def system_message(msg):
         else:
             SIREN.sound_alarm(False)
     elif msg.topic == 'diy/system/test':
-        if msg.payload == b'ON':
-            SIREN.sound_alarm(True)
-        else:
-            SIREN.sound_alarm(False)
+        TEST.on_message(msg.payload)
     elif msg.topic == TOPIC.get_setup():
         topic = msg.payload.decode('utf-8') + "/alive"
         TOPIC.set(topic)
