@@ -60,7 +60,7 @@ WHO = WhoController()
 # set up alarm GPIO controller
 
 SIREN = AlarmController(SIREN_GPIO) # Alarm or light controller
-SIREN.sound_alarm(False)
+SIREN.start()
 
 TEST = TestModel(SIREN)
 

@@ -26,17 +26,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from threading import Thread
+from time import sleep
 import RPi.GPIO as GPIO
 
 class AlarmController:
     """ Abstract and manage an alarm GPIO pin. """
 
-    def __init__(self, pin):
+    def __init__(self, pin, interval=2):
         """ Initialize the alarm GPIO pin. """
         self.alarm_pin = pin
         GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
         GPIO.setup(self.alarm_pin, GPIO.OUT)  # LED pin set as output
         GPIO.output(self.alarm_pin, GPIO.LOW)
+        self.active = False
+        self.pulsing = False
+        self.interval = interval
+
+    def start(self):
+        """ Start the alarm thread """
+        self.active = True
+        led_thread = Thread(target=self.manage_alarm, args=())
+        led_thread.daemon = True
+        led_thread.start()
+
+    def manage_alarm(self):
+        """ sleep and then flash the LED """
+        while self.active:
+            if self.pulsing:
+                GPIO.output(self.alarm_pin, GPIO.HIGH)
+                sleep(2.0)
+                GPIO.output(self.alarm_pin, GPIO.LOW)
+            sleep(self.interval)
 
     def sound_alarm(self, turn_on):
         """ Turn on or off power to the GPIO pin. """
@@ -46,6 +67,16 @@ class AlarmController:
         else:
             GPIO.output(self.alarm_pin, GPIO.LOW)
 
+    def sound_pulsing_alarm(self, turn_on):
+        """ Turn on or off power to the GPIO pin. """
+        """ Pull down to activate the relay """
+        if turn_on:
+            self.pulsing = True
+        else:
+            self.pulsing = False
+            GPIO.output(self.alarm_pin, GPIO.LOW)
+
     def reset(self, ):
         """ Turn power off to the GPIO pin. """
+        self.pulsing = False
         GPIO.output(self.alarm_pin, GPIO.LOW)
