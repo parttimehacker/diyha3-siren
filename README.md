@@ -21,7 +21,12 @@ chmod +x *.sh
 ## Usage: 
 You need to decide whether you want to manually run the application or have it started as part of the boot process. I recommend making a **Raspbian OS systemd service**, so the application starts when rebooted or controled by **systemctl** commands. The **systemd-script.sh** creates a diyha_siren directory in **/usr/local directory**. The application files are then copied to this new directory. The application will also require a log file in **/var/log directory** called diyha_siren.log
 
-The application subscribes to four MQTT topics. Two of the topics, **diy/system/fire** and **diy/system/panic**, control the siren. Another topic **diy/system/who**, causes the application to publish its status to the MQTT broker. The fourth topic is **diy/system/test** which is used for developement testing.
+The application subscribes to five MQTT topics. 
+
+- Two of the topics, **diy/system/fire** and **diy/system/panic**, control the siren. 
+- Another topic **diy/system/who**, causes the application to publish its status to the MQTT broker. 
+- The fourth topic is **diy/system/test** which is used for developement testing.
+- A setup topic **diy/hostname/setup** waits for a message with the device's physical location.
 
 The application uses two of the Raspberry Pi pins: **GPIO 17** for the siren and **GPIO 18** for a green LED indicating that the device is running (easily changed).
 
