@@ -57,41 +57,52 @@ TOPIC = TopicModel() # Location MQTT topic
 
 WHO = WhoController()
 
-# set up alarm GPIO controller
+# set up alarm GPIO controller and its thread
 
 SIREN = AlarmController(SIREN_GPIO) # Alarm or light controller
 SIREN.start()
 
+# set up the development test model 
+
 TEST = TestModel(SIREN)
 
-# set up alive GPIO controller
+# set up alive GPIO controller and its thread
 
 ALIVE = AliveController(ALIVE_GPIO, ALIVE_INTERVAL) # Alive or LED controller
 ALIVE.start()
 
 # Process MQTT messages using a dispatch table algorithm.
 
-#pylint: disable=too-many-branches
-
-def system_message(msg):
+def system_message(msg): 
     """ Log and process system messages. """
+    
     LOGGER.info(msg.topic+" "+msg.payload.decode('utf-8'))
+    
     if msg.topic == 'diy/system/fire':
+        
         if msg.payload == b'ON':
             SIREN.sound_alarm(True)
         else:
             SIREN.sound_alarm(False)
+            
     elif msg.topic == 'diy/system/panic':
+        
         if msg.payload == b'ON':
-            SIREN.sound_alarm(True)
+            SIREN.sound_pulsing_alarm(True)
         else:
-            SIREN.sound_alarm(False)
+            SIREN.sound_pulsing_alarm(False)
+            
     elif msg.topic == 'diy/system/test':
+        
         TEST.on_message(msg.payload)
+        
     elif msg.topic == TOPIC.get_setup():
+        
         topic = msg.payload.decode('utf-8') + "/alive"
         TOPIC.set(topic)
+        
     elif msg.topic == 'diy/system/who':
+        
         if msg.payload == b'ON':
             WHO.turn_on()
         else:
