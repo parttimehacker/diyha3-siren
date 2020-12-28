@@ -29,16 +29,17 @@ The application subscribes to four MQTT topics.
 
 The application uses two of the Raspberry Pi pins: **GPIO 17** for the siren and **GPIO 18** for a green LED indicating that the device is running (easily changed).
 
-- Create the diyha-siren systemd service (the script uses a file name argument to create the service)
-```
-./systemd_script.sh diyha_siren
-```
-- Manually run the application enter the following
+- To manually run the application enter the following command (sudo may be required on your system)
 ```
 sudo python3 diyha_siren.py --mqtt MQTTBROKERHOSTNAMEORIPADDRESS --location LOCATIONTOPIC
 ```
 - MQTTBROKERHOSTNAMEORIPADDRESS is the MQTT broker hostname or IP address. I use the Open Source Mosquitto.
 - LOCATIONTOPIC is the MQTT topic used to identify the location of the IOT device.
+
+- Create the diyha-siren systemd service (the script uses a file name argument to create the service)
+```
+./systemd_script.sh diyha_siren
+```
 
 This script also adds four aliases to the **.bash_aliases** in your home directory for convenience.
 ```
