@@ -33,7 +33,7 @@ class WhoController:
 
     def __init__(self,):
         """ Create two topics for this application. """
-        logging.config.fileConfig(fname='/home/an/diyha-siren/logging.ini', disable_existing_loggers=False)
+        logging.config.fileConfig(fname='/var/log/diyha_siren/logging.ini', disable_existing_loggers=False)
         # Get the logger specified in the file
         self.logger = logging.getLogger(__name__)
         host_name = socket.gethostname()
