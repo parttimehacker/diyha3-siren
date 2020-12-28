@@ -29,7 +29,7 @@ The application subscribes to four MQTT topics.
 
 The application uses two of the Raspberry Pi pins: **GPIO 17** for the siren and **GPIO 18** for a green LED indicating that the device is running (easily changed).
 
-- To manually run the application enter the following command (sudo may be required on your system)
+To manually run the application enter the following command (sudo may be required on your system)
 ```
 sudo python3 diyha_siren.py --mqtt MQTTBROKERHOSTNAMEORIPADDRESS --location LOCATIONTOPIC
 ```
