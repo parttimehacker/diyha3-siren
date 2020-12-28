@@ -33,22 +33,20 @@ class TopicModel:
     def __init__(self):
         """ Create two topics for this application. """
         host_name = socket.gethostname()
-        self.setup_topic = "diy/"+host_name+"/setup"
         self.status_topic = "diy/"+host_name+"/status"
-        self.location_topic = ""
-        self.waiting_for_location = True
-        print("setup topic => ", self.setup_topic)
+        self.location_topic = ''
+        self.siren = ''
 
     def set(self, topic):
         """ The location topic is typically returned by MQTT message methods
             at startup.
         """
         self.location_topic = topic
-        self.waiting_for_location = False
+        self.siren = self.location_topic + '/siren'
 
-    def get_setup(self,):
-        """ Typically used by MQTT subscribe methods. """
-        return self.setup_topic
+    def get_siren(self,):
+        """ Typically used in response to MQTT diy/system/panic or /fire message. """
+        return self.siren
 
     def get_status(self,):
         """ Typically used in response to MQTT diy/system/who message. """
@@ -58,5 +56,4 @@ class TopicModel:
         """ The location topic is used to manage multiple devices. At runtime
             a device requests its location dynamically from the MQTT broker.
         """
-        print("get_location => ", self.location_topic)
         return self.location_topic

@@ -25,13 +25,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import argparse
 import logging.config
 import time
 import paho.mqtt.client as mqtt
 
 from pkg_classes.alarmcontroller import AlarmController
 from pkg_classes.alivecontroller import AliveController
+from pkg_classes.configmodel import ConfigModel
 from pkg_classes.topicmodel import TopicModel
 from pkg_classes.whocontroller import WhoController
 from pkg_classes.testmodel import TestModel
@@ -49,9 +49,14 @@ logging.config.fileConfig(fname="/usr/local/diyha_siren/logging.ini",
 LOGGER = logging.getLogger("diyha_siren")
 LOGGER.info('Application started')
 
-# Location provided by MQTT broker at runtime and managed by this class.
+# get the command line arguements
 
-TOPIC = TopicModel() # Location MQTT topic
+CONFIG = ConfigModel()
+
+# Location is used to create the switch topics
+
+TOPIC = TopicModel()  # Location MQTT topic
+TOPIC.set(CONFIG.get_location())
 
 # Set up diy/system/who message handler from MQTT broker and wait for client.
 
@@ -73,49 +78,31 @@ ALIVE.start()
 
 # Process MQTT messages using a dispatch table algorithm.
 
-def system_message(msg): 
+def system_message(client, msg):
     """ Log and process system messages. """
     
     LOGGER.info(msg.topic+" "+msg.payload.decode('utf-8'))
     
     if msg.topic == 'diy/system/fire':
-        
         if msg.payload == b'ON':
             SIREN.sound_alarm(True)
         else:
             SIREN.sound_alarm(False)
             
     elif msg.topic == 'diy/system/panic':
-        
         if msg.payload == b'ON':
             SIREN.sound_pulsing_alarm(True)
         else:
             SIREN.sound_pulsing_alarm(False)
             
     elif msg.topic == 'diy/system/test':
-        
         TEST.on_message(msg.payload)
         
-    elif msg.topic == TOPIC.get_setup():
-        
-        topic = msg.payload.decode('utf-8') + "/alive"
-        TOPIC.set(topic)
-        
     elif msg.topic == 'diy/system/who':
-        
         if msg.payload == b'ON':
             WHO.turn_on()
         else:
             WHO.turn_off()
-
-#pylint: disable=unused-argument
-
-def topic_message(msg):
-    """ Set the sensors location topic. Used to publish measurements. """
-    LOGGER.info(msg.topic+" "+msg.payload.decode('utf-8'))
-    topic = msg.payload.decode('utf-8') + "/motion"
-    TOPIC.set(topic)
-
 
 #  A dictionary dispatch table is used to parse and execute MQTT messages.
 
@@ -127,16 +114,20 @@ TOPIC_DISPATCH_DICTIONARY = {
     "diy/system/test":
         {"method": system_message},
     "diy/system/who":
-        {"method":system_message},
-    TOPIC.get_setup():
-        {"method":topic_message}
+        {"method":system_message}
     }
 
 
 def on_message(client, userdata, msg):
     """ dispatch to the appropriate MQTT topic handler """
     #pylint: disable=unused-argument
-    TOPIC_DISPATCH_DICTIONARY[msg.topic]["method"](msg)
+    if msg.topic == TOPIC.get_siren():
+        if msg.payload == b'ON':
+            SIREN.sound_alarm(True)
+        else:
+            SIREN.sound_alarm(False)
+    else:
+        TOPIC_DISPATCH_DICTIONARY[msg.topic]["method"](client, msg)
 
 
 def on_connect(client, userdata, flags, rc_msg):
@@ -148,8 +139,7 @@ def on_connect(client, userdata, flags, rc_msg):
     client.subscribe("diy/system/panic", 1)
     client.subscribe("diy/system/test", 1)
     client.subscribe("diy/system/who", 1)
-    client.subscribe(TOPIC.get_setup(), 1)
-
+    client.subscribe(TOPIC.get_siren(), 1)
 
 def on_disconnect(client, userdata, rc_msg):
     """ Subscribing on_disconnect() tilt """
@@ -171,22 +161,10 @@ if __name__ == '__main__':
 
     WHO.set_client(CLIENT)
 
-    # command line argument contains Mosquitto MQTT broker IP address.
-
-    PARSER = argparse.ArgumentParser('sensor.py parser')
-    PARSER.add_argument('--mqtt', help='MQTT server IP address')
-    ARGS = PARSER.parse_args()
-
-    BROKER_IP = ARGS.mqtt
-    print(BROKER_IP)
-
-    CLIENT.connect(BROKER_IP, 1883, 60)
+    CLIENT.connect(CONFIG.get_broker(), 1883, 60)
     CLIENT.loop_start()
 
-    # Message broker will send the location and set waiting to false.
-
-    while TOPIC.waiting_for_location:
-        time.sleep(5.0)
+    time.sleep(2.0)
 
     # Loop forever waiting for and handling MQTT messages.
 
