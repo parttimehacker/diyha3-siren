@@ -97,7 +97,7 @@ class StatusModel:
                 if b'VERSION' == key:
                     data, chaff = value.split( b'\n' )
                     strData = str( data, 'utf-8' )
-                    osVersion = strData.replace( '"', '' )
+                    osVersion = "Raspbian " + strData.replace( '"', '' )
                     self.client.publish( self.os_version_topic, osVersion, 0, True )
                     self.logger.info(osVersion)
 
@@ -108,7 +108,7 @@ class StatusModel:
         for line in cmd.stdout:
             key, value = line.split( b' Pi ' )
             data, chaff = value.split( b'\x00' )
-            piVersion = str( data, 'utf-8' ) + "Raspberry Pi "
+            piVersion = "Raspberry Pi " + str( data, 'utf-8' )
             self.client.publish( self.pi_version_topic, piVersion, 0, True )
             self.logger.info(piVersion)
 
