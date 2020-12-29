@@ -3,6 +3,6 @@ Description=Do It Yourself Home Automation Siren
 After=multi-user.target
 [Service]
 Type=idle
-ExecStart=/usr/bin/python3 /usr/local/diyha_siren/diyha_siren.py --m chuck --l diy/main/living
+ExecStart=/usr/bin/python3 /usr/local/diyha_siren/diyha_siren.py --mq chuck --loc diy/main/living
 [Install]
 WantedBy=multi-user.target

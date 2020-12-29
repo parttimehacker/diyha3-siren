@@ -39,19 +39,19 @@ class ConfigModel:
         # Get the logger specified in the file
         self.logger = logging.getLogger(__name__)
         PARSER = argparse.ArgumentParser('diyga_siren.py parser')
-        PARSER.add_argument('--m', help='MQTT broker server IP address')
-        PARSER.add_argument('--l', help='Location topic required')
+        PARSER.add_argument('--mq', help='MQTT broker server IP address')
+        PARSER.add_argument('--loc', help='Location topic required')
         ARGS = PARSER.parse_args()
         # command line arguement for the MQTT broker hostname or IP
-        if ARGS.mqtt == None:
+        if ARGS.mq == None:
             self.logger.error("Terminating> --m not provided")
             exit() # manadatory
-        self.broker_ip = ARGS.mqtt
+        self.broker_ip = ARGS.mq
         # command line arguement for the location topic
-        if ARGS.location == None:
+        if ARGS.loc == None:
             self.logger.error("Terminating> --l not provided")
             exit() # mandatory
-        self.location = ARGS.location
+        self.location = ARGS.loc
 
     def get_broker(self, ):
         """ MQTT BORKER hostname or IP address."""
