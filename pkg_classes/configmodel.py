@@ -38,18 +38,18 @@ class ConfigModel:
                                   disable_existing_loggers=False)
         # Get the logger specified in the file
         self.logger = logging.getLogger(__name__)
-        PARSER = argparse.ArgumentParser('diyga_siren.py parser')
+        PARSER = argparse.ArgumentParser('diyha_siren.py parser')
         PARSER.add_argument('--mq', help='MQTT broker server IP address')
         PARSER.add_argument('--loc', help='Location topic required')
         ARGS = PARSER.parse_args()
         # command line arguement for the MQTT broker hostname or IP
         if ARGS.mq == None:
-            self.logger.error("Terminating> --m not provided")
+            self.logger.error("Terminating> --mq not provided")
             exit() # manadatory
         self.broker_ip = ARGS.mq
         # command line arguement for the location topic
         if ARGS.loc == None:
-            self.logger.error("Terminating> --l not provided")
+            self.logger.error("Terminating> --loc not provided")
             exit() # mandatory
         self.location = ARGS.loc
 
