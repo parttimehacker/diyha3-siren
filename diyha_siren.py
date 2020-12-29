@@ -33,6 +33,7 @@ from pkg_classes.alarmcontroller import AlarmController
 from pkg_classes.alivecontroller import AliveController
 from pkg_classes.configmodel import ConfigModel
 from pkg_classes.topicmodel import TopicModel
+from pkg_classes.statusmodel import StatusModel
 from pkg_classes.whocontroller import WhoController
 from pkg_classes.testmodel import TestModel
 
@@ -156,17 +157,21 @@ if __name__ == '__main__':
     CLIENT.on_connect = on_connect
     CLIENT.on_disconnect = on_disconnect
     CLIENT.on_message = on_message
+    CLIENT.connect(CONFIG.get_broker(), 1883, 60)
+    CLIENT.loop_start()
 
     # initilze the Who client for publishing.
 
     WHO.set_client(CLIENT)
 
-    CLIENT.connect(CONFIG.get_broker(), 1883, 60)
-    CLIENT.loop_start()
+    # initialize status monitoring
+
+    STATUS = StatusModel(CLIENT)
+    STATUS.start()
 
     time.sleep(2.0)
 
-    # Loop forever waiting for and handling MQTT messages.
+    # Loop forever waiting for MQTT messages.
 
     while True:
         time.sleep(5.0)
