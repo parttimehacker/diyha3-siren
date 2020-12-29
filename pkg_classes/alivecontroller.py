@@ -56,11 +56,11 @@ class AliveController:
                 return
             sleep(self.interval)
             GPIO.output(self.alive_pin, GPIO.HIGH)
-            sleep(0.5)
+            sleep(0.1)
             GPIO.output(self.alive_pin, GPIO.LOW)
-            sleep(0.5)
+            sleep(0.25)
             GPIO.output(self.alive_pin, GPIO.HIGH)
-            sleep(0.5)
+            sleep(0.1)
             GPIO.output(self.alive_pin, GPIO.LOW)
 
     def stop(self,):
