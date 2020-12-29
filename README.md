@@ -65,7 +65,7 @@ Adafruit supplies most of my hardware. http://www.adafruit.com
 
 My "do it yourself home automation" system leverages the work from the Eclipse IOT Paho project. https://www.eclipse.org/paho/
 
-I use the PyCharm development environment 
+I use the PyCharm development environment https://www.jetbrains.com/pycharm/
 
 ## Credits: 
 Developed by parttimehacker.
