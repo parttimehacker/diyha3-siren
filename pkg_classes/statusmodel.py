@@ -115,6 +115,8 @@ class StatusModel:
 
     def start(self):
         """ Start the monitoring thread """
+        self.publish_os_version()
+        self.publish_pi_version()
         self.inactive = False
         led_thread = Thread(target=self.collect_metrics, args=())
         led_thread.daemon = True
