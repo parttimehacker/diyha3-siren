@@ -2,7 +2,7 @@
 Do It Yourself Home Automation emergency alarm activated by Alexa.
 
 ## Description: 
-This is my latest Raspberry Pi project that implements a loud, pulsing siren and a flashing green activity LED as part of a larger "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. The siren is controlled by a relay and powered by a single 12 volt battery. I usually create a **systemd service** so the application runs at boot.
+This is my latest Raspberry Pi project that implements a loud, pulsing siren and a flashing red armed activity LED as part of a larger "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. The siren is controlled by a relay and powered by a single 12 volt battery. I usually create a **systemd service** so the application runs at boot.
 
 ![Screenshot](docs/siren_overview.jpg)
 
