@@ -50,6 +50,7 @@ class StatusModel:
         self.disk_topic = "diy/" + self.host + "/disk"
         self.os_version_topic = "diy/" + self.host + "/os"
         self.pi_version_topic = "diy/" + self.host + "/pi"
+        self.ip_address_topic = "diy/" + self.host + "/ip"
         self.cpu_accumulator = 0.0
         self.celsius_accumulator = 0.0
         self.disk_free_accumulator = 0.0
@@ -111,12 +112,22 @@ class StatusModel:
             piVersion = "Raspberry Pi " + str( data, 'utf-8' )
             self.client.publish( self.pi_version_topic, piVersion, 0, True )
             self.logger.info(piVersion)
+            
+            
+    def publish_ip_address(self,):
+        ''' get the current ip address and make available to observers '''
+        self.host = socket.gethostname()
+        self.ip_address = socket.gethostbyname(self.host)
+        self.client.publish( self.ip_address_topic, self.ip_address, 0, True )
+        self.logger.info(self.host)
+        self.logger.info(self.ip_Address)
 
 
     def start(self):
         """ Start the monitoring thread """
         self.publish_os_version()
         self.publish_pi_version()
+        self.publish_ip_address()
         self.inactive = False
         led_thread = Thread(target=self.collect_metrics, args=())
         led_thread.daemon = True
