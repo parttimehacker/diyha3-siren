@@ -117,10 +117,10 @@ class StatusModel:
     def publish_ip_address(self,):
         ''' get the current ip address and make available to observers '''
         self.host = socket.gethostname()
-        self.ip_address = socket.gethostbyname(self.host)
+        self.ip_address = subprocess.check_output(["hostname", "-I"])
         self.client.publish( self.ip_address_topic, self.ip_address, 0, True )
         self.logger.info(self.host)
-        self.logger.info(self.ip_Address)
+        self.logger.info(self.ip_address)
 
 
     def start(self):
