@@ -38,7 +38,7 @@ class ConfigModel:
                                   disable_existing_loggers=False)
         # Get the logger specified in the file
         self.logger = logging.getLogger(__name__)
-        PARSER = argparse.ArgumentParser('diyha_siren.py parser')
+        PARSER = argparse.ArgumentParser('siren.py parser')
         PARSER.add_argument('--mq', help='MQTT broker server IP address')
         PARSER.add_argument('--loc', help='Location topic required')
         ARGS = PARSER.parse_args()

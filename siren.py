@@ -47,7 +47,7 @@ ALIVE_INTERVAL = 5
 
 logging.config.fileConfig(fname="/usr/local/siren/logging.ini",
                           disable_existing_loggers=False)
-LOGGER = logging.getLogger("diyha_siren")
+LOGGER = logging.getLogger("siren")
 LOGGER.info('Application started')
 
 # get the command line arguements

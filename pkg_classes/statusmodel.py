@@ -39,7 +39,7 @@ class StatusModel:
     def __init__(self, client):
         ''' Setup MQTT topics and initialize data elements '''
         self.client = client
-        logging.config.fileConfig(fname="/usr/local/diyha_siren/logging.ini",
+        logging.config.fileConfig(fname="/usr/local/siren/logging.ini",
                                   disable_existing_loggers=False)
         # Get the logger specified in the file
         self.logger = logging.getLogger(__name__)
