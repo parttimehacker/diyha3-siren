@@ -34,7 +34,7 @@ class ConfigModel:
 
     def __init__(self,):
         """ Parse the command line arguements """
-        logging.config.fileConfig(fname='/usr/local/diyha_siren/logging.ini',
+        logging.config.fileConfig(fname='/usr/local/siren/logging.ini',
                                   disable_existing_loggers=False)
         # Get the logger specified in the file
         self.logger = logging.getLogger(__name__)

@@ -45,7 +45,7 @@ ALIVE_INTERVAL = 5
 
 # Start logging and enable imported classes to log appropriately.
 
-logging.config.fileConfig(fname="/usr/local/diyha_siren/logging.ini",
+logging.config.fileConfig(fname="/usr/local/siren/logging.ini",
                           disable_existing_loggers=False)
 LOGGER = logging.getLogger("diyha_siren")
 LOGGER.info('Application started')
