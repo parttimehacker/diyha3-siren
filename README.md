@@ -1,4 +1,4 @@
-# siren
+# diyha3-siren
 Do It Yourself Home Automation emergency alarm activated by Alexa.
 
 ## Description: 
